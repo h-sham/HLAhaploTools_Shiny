@@ -4,11 +4,15 @@
 .RData
 .Ruserdata
 
+# Ignore all RStudio project files
+*.Rproj
+
 # OS junk
 .DS_Store
 Thumbs.db
 
-# R build
-.Rproj.user
-.Rproj.user/*
-*.Rproj
+# Shiny / R build artifacts
+.Rapp.history
+
+# Ignore temporary data files (optional)
+data/*.tmp
