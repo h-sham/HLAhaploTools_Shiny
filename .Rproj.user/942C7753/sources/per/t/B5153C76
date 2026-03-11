@@ -1,0 +1,26 @@
+{
+    "id": "B5153C76",
+    "path": "W:/Pathology/FSH/Immunology/Validation Data and Research Projects (AD13)/Bioinformatics Projects/2024-010 Extended haplotypes/MSc_Project_H-Sham/Code/HLA_haplotools_shiny/R/global.R",
+    "project_path": "R/global.R",
+    "type": "r_source",
+    "hash": "3479847260",
+    "contents": "",
+    "dirty": false,
+    "created": 1773183964818.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "66,0",
+        "scrollLine": "44"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1773208019,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1773208019815,
+    "read_only": false,
+    "read_only_alternatives": []
+}
