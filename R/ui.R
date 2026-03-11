@@ -1,40 +1,15 @@
 ui <- page_fluid(
    tags$head(
       tags$link(rel = "icon", sizes = "32x32", href = "favicon.ico"),
-      includeCSS("www/styles.css"),
-      tags$style(
-         HTML("
-            #title-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                margin-bottom: 20px;
-            }
-            #logo-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                padding: 10px 0;
-            }
-            #logo, #uwa_logo {
-                height: 100px;
-                width: auto;
-            }
-            #title-text {
-                text-align: center;
-                width: 100%;
-                margin-top: 10px;
-                font-family: 'Arial', sans-serif;
-                font-weight: bold;
-            }
-         ")
-      )
+      includeCSS("www/styles.css")
    ),
+
+   # --- TITLE PANEL ---
    titlePanel(
       title = div(
          id = "title-container",
+
+         # Logo row (kept unchanged)
          div(
             id = "logo-row",
             style = "display: flex; justify-content: space-between; align-items: center;",
@@ -49,18 +24,18 @@ ui <- page_fluid(
                tags$img(src = "UWA_logo.png", id = "uwa_logo", height = "75px")
             )
          ),
+
+         # Title text bar
          div(
             id = "title-text",
-            style = "background-color: #130605; padding: 3px; text-align: center;",
-            h1(
-               "EXTENDED HLA HAPLOTYPE RECONSTRUCTION",
-               style = "color: #414a66;"
-            )
+            h1("EXTENDED HLA HAPLOTYPE RECONSTRUCTION")
          )
       ),
       windowTitle = "Extended HLA Reconstruction"
    ),
    theme = bslib::bs_theme(bootswatch = "yeti"),
+
+   # --- SIDEBAR + MAIN LAYOUT ---
    sidebarLayout(
       sidebarPanel(
          width = 2,
@@ -68,46 +43,78 @@ ui <- page_fluid(
          fluid = TRUE,
          helpText(a(HTML(
             "Program to reconstruct HLA haplotypes in family-based and population
-            typing data.<br><br>
-            For detailed usage information, please use the help link below.<br><br>"
+            typing data.<br><br>"
          ))),
          helpText(h5(HTML("Upload files (Max 50Mb)"))),
          fileInput(
-            "file",
+            "typing_data",
             NULL,
-            buttonLabel = "Browse",
-            multiple = FALSE
+            buttonLabel = "HLA typing",
+            multiple = FALSE,
+            accept = c(".xls", ".xlsx", ".csv", ".txt", ".tsv", ".hml", ".xml")
          ),
-         div(style = "margin-top: -25px; font-size: 10px;"),
-         helpText(HTML("Acceptable formats: .xls, .xlsx, .csv, .txt and .tsv")),
-         br(), br(),
-         card(
-            style = "margin-bottom: 5px; padding: 5px;",
-            helpText(h6(HTML("Type of Data"), style = "margin-bottom: 5px;")),
-            div(
-               style = "margin-top: -10px; margin-bottom: -10px;",
-               selectInput(
-                  inputId = "data_type",
-                  label = NULL,
-                  choices = c("Auto-detect", "Family-based", "Population-based"),
-                  selected = "Auto-detect"
+         div(
+            style = "margin-top: -25px; font-size: 15px; color: #bf3b34;",
+            helpText(HTML("Acceptable formats: .xls, xlsx, .csv, .txt/.tsv, .hml, .xml"))
+         ),
+         br(),
+         helpText(h6(HTML("Analysis type"), style = "margin-bottom: 5px;")),
+         div(
+            style = "margin-top: 10px; margin-bottom: -10px;",
+            selectInput(
+               inputId = "data_type",
+               label = NULL,
+               choices = c("Auto-detect", "Family-based", "Population-based"),
+               selected = "Auto-detect"
+            )
+         ),
+         helpText(h6(HTML("Allele Trimming"), style = "margin-bottom: 5px;")),
+         div(
+            style = "margin-top: 10px; margin-bottom: -10px;",
+            selectInput(
+               inputId = "trim_selection",
+               label = NULL,
+               choices = c(
+                  "Yes (2-field)" = "trim2",
+                  "Yes (3-field)" = "trim3",
+                  "No Trimming" = "no_trim"
+               ),
+               selected = "trim2" # default = YES trimming
+            )
+         ),
+         br(),
+
+         # Optional input (Metadata for direct NGSEngine uploads of family data)
+         div(
+            style = "margin: 0;",
+            helpText(h4(HTML("Optional (metadata)"))),
+            tags$div(
+               class = "checkbox",
+               tags$input(type = "checkbox", id = "family_metadata_checkbox", style = "margin: 0; color:red"),
+               tags$label(
+                  "Family Metadata",
+                  `for` = "family_metadata_checkbox",
+                  tags$i(
+                     class = "glyphicon glyphicon-info-sign slim-info-icon", # Added class for styling
+                     title = "If selected, provide family metadata in table format (csv, tsv/txt, xls, xlsx)
+                     to be joined with typing data input"
+                  )
                )
-            ),
-            helpText(h6(HTML("Allele Trimming"), style = "margin-bottom: 5px;")),
-            div(
-               style = "margin-top: -10px; margin-bottom: -10px;",
-               radioButtons(
-                  inputId = "trim_selection",
-                  label = NULL,
-                  width = "180px",
-                  choices = list("No Trimming" = "no_trim", "Trimming" = "trim"),
-                  selected = "no_trim"
-               )
+            )
+         ),
+         conditionalPanel(
+            condition = "input.family_metadata_checkbox == true",
+            fileInput(
+               "family_metadata",
+               NULL,
+               buttonLabel = "Metadata",
+               multiple = FALSE,
+               accept = c(".xls", ".xlsx", ".csv", ".txt", ".tsv")
             )
          ),
          fluidRow(
             column(6, actionButton("Submit", "Submit", class = "btn-success")),
-            column(6, actionButton("restbutton", "Reset")),
+            column(6, actionButton("resetButton", "Reset")),
             br(),
             fluidRow(
                column(12, actionLink("help", HTML('<span style ="color: blue;">&quest;Help</span')))
@@ -117,14 +124,56 @@ ui <- page_fluid(
             )
          )
       ),
+
+      # --- MAIN PANEL ---
       mainPanel(
          width = 10,
          tabsetPanel(
             id = "Dataset",
+
+            # --- RAW TYPING DATA TAB ---
+            tabPanel(
+               "Raw Typing Data",
+               withSpinner(
+                  DT::DTOutput("raw_typing"),
+                  type = 7,
+                  color = "#414a66",
+                  hide.ui = TRUE
+               ),
+               conditionalPanel(
+                  condition = "output.raw_typing",
+                  div(
+                     style = "text-align: right;",
+                     helpText("Click to download Raw Typing Data"),
+                     downloadButton("download_raw", "download xlsx")
+                  )
+               )
+            ),
+
+            # --- CLEANED TYPING DATA TAB ---
+            tabPanel(
+               "Cleaned Typing Data",
+               withSpinner(
+                  DT::DTOutput("clean_typing"),
+                  type = 7,
+                  color = "#414a66",
+                  hide.ui = TRUE
+               ),
+               conditionalPanel(
+                  condition = "output.clean_typing",
+                  div(
+                     style = "text-align: right;",
+                     helpText("Click to download Reformatted Typing Data"),
+                     downloadButton("download_clean", "download xlsx")
+                  )
+               )
+            ),
+
+            # --- SEGREGATION TAB ---
             tabPanel(
                "Segregation Analysis",
                withSpinner(
-                  DT::DTOutput("seg_table"),
+                  DT::DTOutput("segregation_out"),
                   type = 7,
                   color = "#414a66",
                   hide.ui = TRUE
@@ -156,7 +205,8 @@ ui <- page_fluid(
                   hide.ui = TRUE
                ),
                conditionalPanel(
-                  condition = "output.comparison !== null && output.comparison !== undefined && $('#comparison').text().trim() !== ''",
+                  condition = "output.comparison !== null &&
+                  output.comparison !== undefined && $('#comparison').text().trim() !== ''",
                   div(
                      style = "text-align: right;",
                      helpText("Click to download Comparison"),
@@ -186,29 +236,31 @@ ui <- page_fluid(
       )
    ),
    br(),
+
+   # --- FOOTER ---
    tags$div(
       class = "footer",
-      style = "background-color: #130605; padding: 3px; text-align: center;",
       HTML('
-         <div class="footer" style="color: #414a66;">
-            Copyright &copy; Hoiley Sham |
+         <div class="footer">
+            Copyright &copy; Hoiley Sham 2026 |
             Department of Clinical Immunology; PathWest&#x00AE Laboratory Medicine;
-            Government of Western Australia Department of Health. <br/>
-            This application (xx) is for research and reference purposes only and it may contain
+            Government of Western Australia Department of Health.<br/>
+            This application is for research and reference purposes only and it may contain
             links to embargoed or legally privileged data.
             Except as permitted by the copyright law applicable to you,
             you may not reproduce or communicate any of the content produced on this page,
             including files downloadable from this page, without written permission
             of the copyright owner(s) or authorised PathWest personnel.
-            The user acknowledges that they are using xx at their own risk and they agree with the terms of use.
+            The user acknowledges that they are using <em>HLAhaploTools</em> at their own risk and
+            they agree with the terms of use.
             <br/>
             This application is maintained by
             <a href="https://pathwest.health.wa.gov.au/Our-Services/Clinical-Services/Immunology"
             target="_blank">PathWest&#x00AE Immunology</a>.
-            <br/><br/>
-            If you\'ve used xx to analyse your data, please cite:
-            H. Sham, F. Mobegi and D. De Santis <em>Transplantation 2025</em>.
-            <a href="www.xxxx.com.au" target="_blank">PMID:xxxxxxxx</a>.
+            <br/>If you\'ve used <em>HLAhaploTools</em> to analyse your data, please cite:
+            H. Sham, F. Mobegi and D. De Santis <em>HLAhaploTools: A Bioinformatics Suite for Comprehensive Analysis of
+            Classical and Non-Classical HLA Haplotypes in Extended Families</em>.
+            <a href="https://github.com/h-sham/HLAhaploTools" target="_blank">Link</a>.
          </div>')
    )
 )

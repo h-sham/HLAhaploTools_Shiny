@@ -6,3 +6,61 @@ library(shinyjs)
 library(shinythemes)
 library(shinydashboard)
 library(shinyWidgets)
+library(vroom)
+library(readxl)
+# library(hlahaplotools)
+
+reformat_ngs_engine_csv <- function(csv) {}
+
+## Source all R files from previous app....
+library(purrr)
+purrr::walk(
+   list.files("../HLAhaploTools/R", pattern = "\\.R$", full.names = TRUE),
+   source
+)
+
+clean_typing_data <- function(df_raw,
+                              trim_selection = "trim2",
+                              mac = TRUE) {
+   detect_result <- detect_data_type(df_raw, quiet = TRUE)
+   family_data_val <- detect_result$is_family
+
+   if (!family_data_val) {
+      stop("Input is not family-based; segregation cannot be performed.")
+   }
+
+   df_formatted <- reformat_typing_data(
+      df_raw,
+      isfamilydata = TRUE,
+      quiet = TRUE
+   )
+
+   df_decoded <- if (mac) {
+      decode_classical_mac(df_formatted, quiet = TRUE)
+   } else {
+      df_formatted
+   }
+
+   if (trim_selection == "trim2") {
+      df_decoded <- trim_hla_results(df_decoded,
+         resolution = 2,
+         quiet = TRUE
+      )
+   } else if (trim_selection == "trim3") {
+      df_decoded <- trim_hla_results(df_decoded,
+         resolution = 3,
+         quiet = TRUE
+      )
+   }
+   df_decoded
+}
+
+run_segregate <- function(df_decoded) {
+   df_segregation <- compute_hla_segregation(df_decoded,
+      collapse = "~",
+      verbose = FALSE
+   )
+   df_segregation
+}
+
+compare_em_and_seg <- function(em, segregation) {}
