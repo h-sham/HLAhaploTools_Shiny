@@ -1,0 +1,250 @@
+/* ================================
+   GLOBAL TEXT & BODY
+================================ */
+body {
+    font-size: 18px;
+    font-family: "Corbel", sans-serif;
+    color: black;
+    text-align: left;
+    overflow: auto;
+}
+
+td {
+    font-size: 14px;
+    font-family: "Corbel", sans-serif;
+    overflow: auto;
+}
+
+/* ================================
+   HEADERS
+================================ */
+h1 {
+    font-size: 48px;
+    font-family: "Corbel", sans-serif;
+    color: #bf3b34;
+    text-align: center;
+    width: 100%;
+    background-color: #231f20;
+    padding: 0;
+}
+
+h2 {
+    font-size: 22px;
+    font-family: "Corbel", sans-serif;
+    color: #bf3b34;
+    text-align: left;
+}
+
+h3 {
+    font-size: 18px;
+    font-family: "Book Antigua", serif;
+    color: darkred;
+    margin-top: 0;
+    text-align: left;
+}
+
+/* ================================
+   CODE BLOCKS
+================================ */
+pre,
+pre .bash,
+.r {
+    font-size: 13px;
+    font-family: "Book Antigua", serif;
+}
+
+pre .bash {
+    background: #B53389;
+}
+
+/* ================================
+   FOOTER
+================================ */
+.footer {
+    position: relative;
+    width: 100%;
+    background-color: #231f20;
+    color: #bf3b34;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+}
+
+.footer::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background-image: linear-gradient(to right,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0));
+}
+
+.content {
+    padding-bottom: 40px;
+}
+
+/* ================================
+   INPUT / CHECKBOX GROUPS
+================================ */
+.any-of-label-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+    margin-top: -25px;
+}
+
+.any-of-label {
+    margin-top: 10px;
+    color: blue;
+}
+
+.any-of-checkbox {
+    margin-right: 10px;
+    background-color: #83bcf1;
+    color: blue;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.input-container input {
+    flex: 1;
+    border: none;
+    outline: none;
+}
+
+.invalid-input {
+    color: red;
+    border: 2px solid red;
+}
+
+/* ================================
+   TABLE ROW HIGHLIGHTS
+================================ */
+.even {
+    background-color: rgb(221, 94, 94);
+}
+
+.odd {
+    background-color: #83bcf1;
+}
+
+/* ================================
+   HELP TEXT & HELP BLOCKS
+================================ */
+#helpText {
+    font-size: 14px;
+    font-family: "Corbel", sans-serif;
+    color: blue;
+}
+
+.help-block a {
+    color: #231f20 !important;
+    font-size: 18px;
+    font-family: "Corbel", sans-serif;
+}
+
+.help-block b {
+    color: darkred !important;
+}
+
+.help-block h4 {
+    font-size: 18px;
+    font-family: "Corbel", sans-serif;
+    color: blue;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.help-block h5 {
+    font-size: 20px;
+    font-family: "Corbel", sans-serif;
+    font-weight: bold;
+    color: darkred;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* ================================
+   MISC
+================================ */
+.highlight {
+    color: blue;
+    font-weight: 700;
+}
+
+.slim-info-icon {
+    font-size: 12px;
+    color: blue;
+}
+
+.shinyalert {
+    max-width: 600px;
+}
+
+#footer_text {
+    font-size: 13px;
+    font-family: "Corbel", sans-serif;
+    color: white;
+    text-align: center;
+    margin: 20px 0;
+    background-color: #231f20;
+    border-radius: 15px;
+}
+
+/* =================================
+   LOGO AND TITLE
+================================== */
+/* Title container */
+#title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Logo row (unchanged as requested) */
+#logo-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+#logo,
+#uwa_logo {
+    height: 85px;
+    width: auto;
+}
+
+/* Title bar background unified */
+#title-text {
+    background-color: #130605;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    padding: 3px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+/* Remove conflicting background from h1 */
+#title-text h1 {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    color: #bf3b34;
+}

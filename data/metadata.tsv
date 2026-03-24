@@ -1,0 +1,15 @@
+SampleID	FAMILY_ID	Family_Member
+Sample_1	Family1	F
+Sample_2	Family1	M
+Sample_3	Family1	C1
+Sample_4	Family1	C2
+Sample_5	Family1	C3
+Sample_6	Family2	F
+Sample_7	Family2	M
+Sample_8	Family2	C1
+Sample_9	Family2	C2
+Sample_10	Family2	C3
+Sample_11	Family3	F
+Sample_12	Family3	M
+Sample_13	Family3	C1
+Sample_14	Family3	C2
