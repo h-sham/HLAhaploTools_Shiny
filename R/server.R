@@ -179,7 +179,11 @@ server <- function(input, output, session) {
             scrollCollapse = TRUE,
             fixedHeader = TRUE
          )
-      )
+      ) %>%
+         DT::formatStyle(
+            c("FAMILY_ID", "Family_Member"),
+            "text-align" = "center"
+         )
    })
 
    output$clean_typing <- DT::renderDT({
@@ -199,16 +203,27 @@ server <- function(input, output, session) {
             scrollCollapse = TRUE,
             fixedHeader = TRUE
          )
-      )
+      ) %>%
+         DT::formatStyle(
+            c("FAMILY_ID", "Family_Member"),
+            "text-align" = "center"
+         )
    })
 
    output$segregation_out <- DT::renderDT({
       req(segregation())
       seg <- segregation()[[1]]
       seg <- seg[, !names(seg) %in% c("Allele_string")]
+      seg_display <- seg %>%
+         dplyr::group_by(FAMILY_ID, Child_ID) %>%
+         dplyr::summarise(
+            Haplotype = paste(Haplotype, collapse = ""), # Combine the two haplotypes
+            .groups = "drop"
+         ) %>%
+         dplyr::select(FAMILY_ID, Child_ID, Haplotype)
 
       DT::datatable(
-         seg,
+         seg_display,
          caption = "Segregation analysis",
          fillContainer = FALSE,
          options = list(
@@ -219,7 +234,11 @@ server <- function(input, output, session) {
             scrollY = "400px",
             scrollCollapse = TRUE
          )
-      )
+      ) # %>%
+      # DT::formatStyle(
+      #    c("FAMILY_ID", "Child_ID", "Haplotype"),
+      #    "text-align" = "center"
+      # )
    })
 
    output$haplotype_string_out <- DT::renderDT({
@@ -233,7 +252,7 @@ server <- function(input, output, session) {
          fillContainer = FALSE,
          options = list(
             paging = FALSE,
-            searching = TRUE,
+            searching = FALSE,
             info = FALSE,
             autoWidth = TRUE,
             scrollY = "400px",
@@ -246,9 +265,14 @@ server <- function(input, output, session) {
       req(em_alg())
       em_display <- as.data.frame(em_alg())
 
-      # if ("EM_Probability" %in% colnames(em_display)) {
-      #    em_display$EM_Probability <- round(em_display$EM_Probability, digits = 5)
-      # }
+      em_display <- em_display %>%
+         dplyr::mutate(
+            EM_Probability = ifelse(
+               grepl("[eE]", as.character(EM_Probability)),
+               signif(EM_Probability, 5),
+               round(EM_Probability, 4)
+            )
+         )
 
       DT::datatable(
          em_display,
@@ -265,7 +289,11 @@ server <- function(input, output, session) {
             scrollCollapse = TRUE,
             fixedHeader = TRUE
          )
-      )
+      ) %>%
+         DT::formatStyle(
+            c("EM_Probability", "Frequency"),
+            "text-align" = "center"
+         )
    })
 
    output$comparison_out <- DT::renderDT({
@@ -275,8 +303,18 @@ server <- function(input, output, session) {
          return(NULL)
       }
 
+      comp_display <- compare_df() %>%
+         dplyr::mutate(
+            em_probability = ifelse(
+               grepl("[eE]", as.character(em_probability)),
+               signif(em_probability, 5),
+               round(em_probability, 4)
+            ),
+            percentage_match = round(percentage_match, 2)
+         )
+
       DT::datatable(
-         compare_df(),
+         comp_display,
          caption = "Comparison",
          fillContainer = FALSE,
          options = list(
@@ -289,7 +327,13 @@ server <- function(input, output, session) {
             scrollCollapse = TRUE,
             fixedHeader = TRUE
          )
-      )
+      ) %>%
+         DT::formatStyle(
+            c(
+               "em_index", "seg_index", "em_probability", "percentage_match", "match", "em_loci_count", "seg_loci_count", "n_loci_compared", "n_loci_matching"
+            ),
+            "text-align" = "center"
+         )
    })
 
    #############################################################################

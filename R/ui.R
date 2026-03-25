@@ -55,7 +55,9 @@ ui <- page_fluid(
          ),
          div(
             style = "margin-top: -25px; font-size: 15px; color: #bf3b34;",
-            helpText(HTML("Acceptable formats: .xls, xlsx, .csv, .txt/.tsv, .hml, .xml"))
+            helpText(HTML(
+               "Acceptable formats: .xls, xlsx, .csv, .txt/.tsv, .hml, .xml"
+            ))
          ),
          br(),
          helpText(h6(HTML("Analysis type"), style = "margin-bottom: 5px;")),
@@ -90,7 +92,9 @@ ui <- page_fluid(
             helpText(h4(HTML("Optional (metadata)"))),
             tags$div(
                class = "checkbox",
-               tags$input(type = "checkbox", id = "family_metadata_checkbox", style = "margin: 0; color:red"),
+               tags$input(
+                  type = "checkbox", id = "family_metadata_checkbox", style = "margin: 0; color:red"
+               ),
                tags$label(
                   "Family Metadata",
                   `for` = "family_metadata_checkbox",
@@ -118,10 +122,14 @@ ui <- page_fluid(
             column(6, actionButton("resetButton", "Reset")),
             br(),
             fluidRow(
-               column(12, actionLink("help", HTML('<span style ="color: blue;">&quest;Help</span')))
+               column(12, actionLink(
+                  "help", HTML('<span style ="color: blue;">&quest;Help</span')
+               ))
             ),
             fluidRow(
-               column(12, actionLink("terms_of_use_link", HTML('<span style="color: blue;">&#128712;Terms of Use</span>')))
+               column(12, actionLink(
+                  "terms_of_use_link", HTML('<span style="color: blue;">&#128712;Terms of Use</span>')
+               ))
             )
          )
       ),
@@ -201,6 +209,62 @@ ui <- page_fluid(
                   )
                )
             ),
+
+            #       tabPanel(
+            #          "Haplotype Strings",
+            #          tags$head(
+            #             tags$style(HTML("
+            #    input[id^='HLA_'] {
+            #       height: 30px;
+            #       padding: 2px 5px;
+            #       font-size: 12px;
+            #    }
+            # "))
+            #          ),
+            #          card(
+            #             sidebarLayout(
+            #                sidebarPanel(
+            #                   width = 2,
+            #                   fluid = TRUE,
+            #                   h3("Allele Frequency"),
+            #                   tagList(
+            #                      lapply(loci, function(locus_i) {
+            #                         splitLayout(
+            #                            cellWidths = c("10%", "75%"),
+            #                            div(
+            #                               style = "display: flex; align-items: center; height: 100%;",
+            #                               checkboxInput(paste0("check_", locus_i), label = NULL)
+            #                            ),
+            #                            div(
+            #                               style = "display: flex; align-items: center; height: 100%;",
+            #                               textInput(paste0("HLA_", locus_i), label = NULL, placeholder = paste0(
+            #                                  "HLA-", locus_i
+            #                               ), width = "100%")
+            #                            )
+            #                         )
+            #                      })
+            #                   ),
+            #                   helpText("These controls only affect the Haplotype Strings view.")
+            #                ),
+            #                mainPanel(
+            #                   width = 9,
+            #                   withSpinner(
+            #                      DT::DTOutput("haplotype_string_out"),
+            #                      type = 7,
+            #                      hide.ui = TRUE
+            #                   ),
+            #                   conditionalPanel(
+            #                      condition = "output.haplotype_string_out",
+            #                      div(
+            #                         style = "text-align: right;",
+            #                         helpText("Click to download Haplotype Strings Data"),
+            #                         downloadButton("download_haplotype_string", "download xlsx")
+            #                      )
+            #                   )
+            #                )
+            #             )
+            #          )
+            #       ),
             tabPanel(
                "Haplotype Inference",
                withSpinner(

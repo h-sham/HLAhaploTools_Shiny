@@ -12,6 +12,7 @@ library(readxl)
 library(HLAhaploTools)
 
 reformat_ngs_engine_csv <- function(csv) {}
+loci <- c("A", "B", "C", "DRB1", "DPA1", "DPB1", "DQA1", "DQB1")
 
 ## Source all R files from previous app....
 library(purrr)
