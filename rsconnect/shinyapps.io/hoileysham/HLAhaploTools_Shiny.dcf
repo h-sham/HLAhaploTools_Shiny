@@ -1,0 +1,10 @@
+name: HLAhaploTools_Shiny
+title: HLAhaploTools_Shiny
+username: hoileysham
+account: hoileysham
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17398059
+bundleId:
+url: https://hoileysham.shinyapps.io/HLAhaploTools_Shiny/
+version: 1

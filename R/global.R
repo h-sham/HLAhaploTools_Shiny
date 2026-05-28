@@ -38,7 +38,8 @@ clean_typing_data <- function(df_raw,
    )
 
    df_decoded <- if (mac) {
-      decode_classical_mac(df_formatted, quiet = TRUE)
+      decode_classical_mac(df_formatted, quiet = TRUE) %>%
+         HLAhaploTools::remove_mac_strings(decoded, quiet = TRUE)
    } else {
       df_formatted
    }
@@ -84,8 +85,8 @@ run_em <- function(df_em_algorithm) {
 
 compare_em_and_seg <- function(em, segregation) {
    df_compare <- compare_EM_to_segregation(
-      hap_df = em,
-      hap_results = segregation,
+      em_df = em,
+      segregation_df = segregation,
       collapse = "~"
    )
    df_compare
