@@ -5,7 +5,7 @@ account: hoileysham
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 17458770
-bundleId: 12075505
+bundleId: 12075568
 url: https://hoileysham.shinyapps.io/HLAhaploTools_Shiny/
 version: 1
 asMultiple: FALSE
