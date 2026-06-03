@@ -11,6 +11,8 @@ library(vroom)
 library(readxl)
 library(HLAhaploTools)
 
+options(shiny.maxRequestSize = 50*1024^2)
+
 reformat_ngs_engine_csv <- function(csv) {}
 loci <- c("A", "B", "C", "DRB1", "DPA1", "DPB1", "DQA1", "DQB1")
 
@@ -24,7 +26,7 @@ purrr::walk(
 clean_typing_data <- function(df_raw,
                               trim_selection = "trim2",
                               mac = TRUE) {
-   detect_result <- HLAhaploTools::detect_data_type(df_raw, quiet = TRUE)
+   detect_result <- detect_data_type(df_raw, quiet = TRUE)
    family_data_val <- detect_result$is_family
 
    if (!family_data_val) {
