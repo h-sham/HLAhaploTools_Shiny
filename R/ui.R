@@ -285,7 +285,7 @@ ui <- page_fluid(
             <a href="https://pathwest.health.wa.gov.au/Our-Services/Clinical-Services/Immunology"
             target="_blank">PathWest&#x00AE Immunology</a>.
             <br/>If you\'ve used <em>HLAhaploTools</em> to analyse your data, please cite:
-            H. Sham, F. Mobegi, D. De Santis and D. Edwards <em>HLAhaploTools: A Bioinformatics Suite for Comprehensive Analysis of
+            H. Sham, D. De Santis, D. Edwards and F. Mobegi <em>HLAhaploTools: A Bioinformatics Suite for Comprehensive Analysis of
             Classical and Non-Classical HLA Haplotypes in Extended Families</em>.
             <a href="https://github.com/h-sham/HLAhaploTools" target="_blank">Link</a>.
          </div>')
