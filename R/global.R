@@ -24,7 +24,7 @@ purrr::walk(
 clean_typing_data <- function(df_raw,
                               trim_selection = "trim2",
                               mac = TRUE) {
-   detect_result <- detect_data_type(df_raw, quiet = TRUE)
+   detect_result <- HLAhaploTools::detect_data_type(df_raw, quiet = TRUE)
    family_data_val <- detect_result$is_family
 
    if (!family_data_val) {
@@ -45,12 +45,12 @@ clean_typing_data <- function(df_raw,
    }
 
    if (trim_selection == "trim2") {
-      df_decoded <- trim_hla_results(df_decoded,
+      df_decoded <- HLAhaploTools::trim_hla_results(df_decoded,
          resolution = 2,
          quiet = TRUE
       )
    } else if (trim_selection == "trim3") {
-      df_decoded <- trim_hla_results(df_decoded,
+      df_decoded <- HLAhaploTools::trim_hla_results(df_decoded,
          resolution = 3,
          quiet = TRUE
       )
@@ -59,7 +59,7 @@ clean_typing_data <- function(df_raw,
 }
 
 run_segregate <- function(df_segregate) {
-   df_segregation <- compute_hla_segregation(df_segregate,
+   df_segregation <- HLAhaploTools::compute_hla_segregation(df_segregate,
       collapse = "~",
       verbose = FALSE
    )
@@ -67,7 +67,7 @@ run_segregate <- function(df_segregate) {
 }
 
 run_allele_string <- function(df_allele) {
-   df_allele_string <- compute_hla_segregation(df_allele,
+   df_allele_string <- HLAhaploTools::compute_hla_segregation(df_allele,
       collapse = "~",
       verbose = FALSE
    )
@@ -75,7 +75,7 @@ run_allele_string <- function(df_allele) {
 }
 
 run_em <- function(df_em_algorithm) {
-   df_em <- em_algorithm(
+   df_em <- HLAhaploTools::em_algorithm(
       df_raw = df_em_algorithm,
       collapse = "~",
       quiet = TRUE
@@ -84,7 +84,7 @@ run_em <- function(df_em_algorithm) {
 }
 
 compare_em_and_seg <- function(em, segregation) {
-   df_compare <- compare_EM_to_segregation(
+   df_compare <- HLAhaploTools::compare_EM_to_segregation(
       em_df = em,
       segregation_df = segregation,
       collapse = "~"

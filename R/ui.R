@@ -209,62 +209,6 @@ ui <- page_fluid(
                   )
                )
             ),
-
-            #       tabPanel(
-            #          "Haplotype Strings",
-            #          tags$head(
-            #             tags$style(HTML("
-            #    input[id^='HLA_'] {
-            #       height: 30px;
-            #       padding: 2px 5px;
-            #       font-size: 12px;
-            #    }
-            # "))
-            #          ),
-            #          card(
-            #             sidebarLayout(
-            #                sidebarPanel(
-            #                   width = 2,
-            #                   fluid = TRUE,
-            #                   h3("Allele Frequency"),
-            #                   tagList(
-            #                      lapply(loci, function(locus_i) {
-            #                         splitLayout(
-            #                            cellWidths = c("10%", "75%"),
-            #                            div(
-            #                               style = "display: flex; align-items: center; height: 100%;",
-            #                               checkboxInput(paste0("check_", locus_i), label = NULL)
-            #                            ),
-            #                            div(
-            #                               style = "display: flex; align-items: center; height: 100%;",
-            #                               textInput(paste0("HLA_", locus_i), label = NULL, placeholder = paste0(
-            #                                  "HLA-", locus_i
-            #                               ), width = "100%")
-            #                            )
-            #                         )
-            #                      })
-            #                   ),
-            #                   helpText("These controls only affect the Haplotype Strings view.")
-            #                ),
-            #                mainPanel(
-            #                   width = 9,
-            #                   withSpinner(
-            #                      DT::DTOutput("haplotype_string_out"),
-            #                      type = 7,
-            #                      hide.ui = TRUE
-            #                   ),
-            #                   conditionalPanel(
-            #                      condition = "output.haplotype_string_out",
-            #                      div(
-            #                         style = "text-align: right;",
-            #                         helpText("Click to download Haplotype Strings Data"),
-            #                         downloadButton("download_haplotype_string", "download xlsx")
-            #                      )
-            #                   )
-            #                )
-            #             )
-            #          )
-            #       ),
             tabPanel(
                "Haplotype Inference",
                withSpinner(
@@ -296,25 +240,25 @@ ui <- page_fluid(
                      downloadButton("download9xls", "download xlsx")
                   )
                )
-            ),
-            tabPanel(
-               "Downloads",
-               div(
-                  style = "text-align: right;",
-                  helpText("Download Segregation Analysis Results"),
-                  downloadButton("downloadData1", "Download tsv"),
-                  br(), br(),
-                  helpText("Download Haplotype Inference Results"),
-                  downloadButton("downloadData3xls", "Download xlsx"),
-                  br(), br(),
-                  helpText("Download Haplotype Comparison"),
-                  downloadButton("downloadData5xls", "Download xlsx"),
-                  br(), br(),
-                  helpText("Download Complete Report"),
-                  downloadButton("downloadData6xls", "Download xlsx"),
-                  br(), br()
-               )
             )
+            # tabPanel(
+            #    "Downloads",
+            #    div(
+            #       style = "text-align: right;",
+            #       helpText("Download Segregation Analysis Results"),
+            #       downloadButton("downloadData1", "Download tsv"),
+            #       br(), br(),
+            #       helpText("Download Haplotype Inference Results"),
+            #       downloadButton("downloadData3xls", "Download xlsx"),
+            #       br(), br(),
+            #       helpText("Download Haplotype Comparison"),
+            #       downloadButton("downloadData5xls", "Download xlsx"),
+            #       br(), br(),
+            #       helpText("Download Complete Report"),
+            #       downloadButton("downloadData6xls", "Download xlsx"),
+            #       br(), br()
+            #    )
+            # )
          )
       )
    ),
